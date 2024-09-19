@@ -27,7 +27,7 @@ class Auth:
         return True
 
     def authorization_header(self, request=None) -> str:
-        """used_later
+        """Check Authrization header in the request
         """
         if not request or not request.headers.get('Authorization'):
             return None

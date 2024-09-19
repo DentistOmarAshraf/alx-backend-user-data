@@ -20,6 +20,8 @@ if getenv('AUTH_TYPE') and getenv('AUTH_TYPE') == 'auth':
 
 @app.before_request
 def before_request_func():
+    """before request handler
+    """
     if not auth:
         return
     list_path = ['/api/v1/status/',
