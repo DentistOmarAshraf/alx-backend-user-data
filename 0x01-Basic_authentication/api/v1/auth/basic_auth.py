@@ -5,6 +5,7 @@ Class BasicAuth
 from flask import request
 from api.v1.auth.auth import Auth
 import base64
+from typing import Tuple
 
 
 class BasicAuth(Auth):
@@ -41,3 +42,17 @@ class BasicAuth(Auth):
             return info
         except Exception:
             return None
+
+    def extract_user_credentials(
+            self,
+            decoded_base64_authorization_header: str) -> Tuple[str, str]:
+        """extract_user_credentials
+        """
+        if not decoded_base64_authorization_header:
+            return (None, None)
+        if not isinstance(decoded_base64_authorization_header, str):
+            return (None, None)
+        if ':' not in decoded_base64_authorization_header:
+            return (None, None)
+        result = decoded_base64_authorization_header.split(':')
+        return (result[0], result[1])
