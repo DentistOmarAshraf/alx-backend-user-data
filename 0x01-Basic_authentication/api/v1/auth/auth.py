@@ -4,6 +4,7 @@ Class Auth
 """
 from flask import request
 from typing import TypeVar, List
+from os import path as PATH
 
 
 class Auth:
@@ -12,9 +13,18 @@ class Auth:
     """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """used later
+        """Chech if path require path
+        Return - bool
+            - false if path in execuleded_path
+            - true if it is not
         """
-        return False
+        if not path or not excluded_paths:
+            return True
+        path_to_check = PATH.normpath(path)
+        check = path_to_check in [PATH.normpath(p) for p in excluded_paths]
+        if check:
+            return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """used_later
