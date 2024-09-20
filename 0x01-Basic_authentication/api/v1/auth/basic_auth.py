@@ -2,7 +2,7 @@
 """
 Class BasicAuth
 """
-from flask import request
+from flask import request as FLASK_REQ
 from models.user import User
 from api.v1.auth.auth import Auth
 import base64
@@ -80,3 +80,15 @@ class BasicAuth(Auth):
         if not the_user.is_valid_password(user_pwd):
             return None
         return the_user
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """use all methods to check user
+        """
+        auth_header = self.authorization_header(request)
+        header_b64 = self.extract_base64_authorization_header(auth_header)
+        decoded = self.decode_base64_authorization_header(header_b64)
+        user = self.extract_user_credentials(decoded)
+        if user == (None, None):
+            return None
+        user_obj = self.user_object_from_credentials(user[0], user[1])
+        return user_obj
