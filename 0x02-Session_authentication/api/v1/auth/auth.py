@@ -37,3 +37,11 @@ class Auth:
         """used_later
         """
         return None
+
+    def session_cookie(self, request=None):
+        """session_cookie
+        """
+        if not request:
+            return None
+        cookie_val = request.cookies.get('_my_session_id', None)
+        return cookie_val
