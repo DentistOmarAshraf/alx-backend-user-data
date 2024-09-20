@@ -68,7 +68,12 @@ class BasicAuth(Auth):
             return None
         if not user_pwd or not isinstance(user_pwd, str):
             return None
-        list_of_user = User.search({'email': user_email})
+
+        try:
+            list_of_user = User.search({'email': user_email})
+        except KeyError:
+            return None
+
         if not list_of_user:
             return None
         the_user: User = list_of_user[0]
