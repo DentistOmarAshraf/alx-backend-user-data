@@ -5,7 +5,7 @@ Class Auth
 from flask import request
 from typing import TypeVar, List
 from os import path as PATH
-import fnmatch
+from fnmatch import fnmatch
 
 
 class Auth:
@@ -22,10 +22,9 @@ class Auth:
         if not path or not excluded_paths:
             return True
         path_to_check = PATH.normpath(path)
-        paths = [PATH.normpath(p) for p in excluded_paths]
         check = False
-        for path in paths:
-            if fnmatch.fnmatch(path_to_check, path):
+        for path in excluded_paths:
+            if fnmatch(path_to_check, PATH.normpath(path)):
                 check = True
                 break
         if check:
