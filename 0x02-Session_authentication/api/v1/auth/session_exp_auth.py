@@ -1,4 +1,4 @@
-# /usr/bin/env python3
+#!/usr/bin/env python3
 """
 SessionExpAuth
 """
@@ -19,7 +19,7 @@ class SessionExpAuth(SessionAuth):
         try:
             duration = int(getenv('SESSION_DURATION'))
             self.session_duration = duration
-        except ValueError:
+        except TypeError:
             pass
 
     def create_session(self, user_id=None):
