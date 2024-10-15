@@ -2,6 +2,7 @@
 """Model of login view
 """
 from flask import request, jsonify, make_response
+from flask import abort
 from typing import List
 from api.v1.views import app_views
 from models.user import User
@@ -37,3 +38,18 @@ def login() -> str:
     session_name = getenv('SESSION_NAME')
     response.set_cookie(session_name, session_id)
     return response
+
+
+@app_views.route('/auth_session/logout',
+                 strict_slashes=False, methods=['DELETE'])
+def logout():
+    """logout
+    """
+    from api.v1.app import auth
+    user = auth.current_user(request)
+    if not user:
+        abort(404)
+    check: bool = auth.destroy_session(request)
+    if not check:
+        abort(404)
+    return jsonify({}), 200
